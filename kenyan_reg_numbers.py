@@ -47,6 +47,3 @@ def possible_first_segment_combination(the_possible_number):
             all_vehicles.append(vehicles)
     return all_vehicles
 
-
-# Call the method to invoke the program
-print((possible_first_segment_combination(possible_second_number_combinattion())))
