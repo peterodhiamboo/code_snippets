@@ -2,7 +2,7 @@
 # game can be modified by the user inputting the range of number that they desire
 
 def guess_game(last_number_of_range):
-    #Thhhis is used to collect the user input
+    #This is used to collect the user input
     number = int(input('Enter the last number of range: \n range starts from 1 - ? '))
 
     print(f'You selected : {number}')

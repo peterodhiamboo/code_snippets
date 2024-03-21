@@ -12,11 +12,7 @@ e = datetime.datetime.now()
 
 date_time_creation = e.strftime("%Y-%m-%d %H:%M:%S")
 
-my_tasks = {
-    'uid' : '',
-    'task' : '',
-    'the_date_created' : ''
-}
+my_tasks = []
 
 def where_json(file_name):
     return os.path.exists(file_name)
@@ -46,19 +42,27 @@ def add_task():
     added_task = task_to_be_added + ': ' + date_time_creation
     unique_task_identifier = str(uuid.uuid4())
 
-    my_tasks.update({
-        'uid' : unique_task_identifier,
-        'task': task_to_be_added,
-        'the_date_created': date_time_creation})
-    
-    
-
     # CALL THE METHOD TO CHECK IF JSON EXISTS
     where_json('data.json')
 
-    #add the new data into the json
-    with open('data.json', 'a') as outfile:
-        json.dump(my_tasks, outfile)
+    #read contents of json file
+    with open('data.json') as fp:
+        my_tasks = json.load(fp)
+
+    print(my_tasks)
+
+    my_tasks.append(
+        {
+            'uid' : unique_task_identifier,
+            'task': task_to_be_added,
+            'the_date_created': date_time_creation
+        }
+    )
+
+    with open('data.json', 'w') as json_file:
+        json.dump(my_tasks, json_file, 
+                        indent=4,  
+                        separators=(',',': '))
 
     print('Task creation successful')
 
