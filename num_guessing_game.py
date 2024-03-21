@@ -9,6 +9,7 @@ def guess_game(last_number_of_range):
 
     while(number != 1):
         number = int(input('try again: '))
+    print('You guessed right :')
 
 
 guess_game(3)
