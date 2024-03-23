@@ -79,28 +79,24 @@ def update_task(task_uid):
     for task in task_metadata:
         if task['uid'] == task_uid:
             task_text = input('What is your new task: ')
-            task['uid'] = task_uid
             task['task'] = task_text
-        else:
-            print('That UID does not match any in the record , please try again:')
+            print(task)
             break
+    else:
+        print('The UID does not match any in our records')
 
-    for task_json in task_metadata:
-        #dumping data to the json (tasks)
-        with open('data.json', 'w') as json_file:
-            json.dump(task_json, json_file,
+    #Writing the whole list plus modifications in the json file, ovewriting everything in it
+    with open('data.json', 'w') as json_file:
+        json.dump(task_metadata, json_file, 
                         indent=4,  
                         separators=(',',': '))
 
-        print('Task updated succesfully !')
-        print (task_metadata)
-
+    
     
 
 def view_tasks():
     with open("data.json", "r") as read_file:
         data = json.load(read_file)
-
     return data
     
 beginner()
