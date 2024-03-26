@@ -6,13 +6,16 @@ import json
 import io
 import os
 
-
 e = datetime.datetime.now()
-
 
 date_time_creation = e.strftime("%Y-%m-%d %H:%M:%S")
 
 my_tasks = []
+
+#deleting the item by the uid, applies in the delete_task function {callable}
+def delete_by_condition(lst, key, value):
+    lst[:] = [d for d in lst if d.get(key) != value]
+            
 
 def where_json(file_name):
     return os.path.exists(file_name)
@@ -98,27 +101,16 @@ def update_task(task_uid):
 
 def delete_task(uid_del):
     t_metadata = view_tasks()
+    
+    delete_by_condition(t_metadata, 'uid', uid_del)
 
-    for tsk in t_metadata:
-        if tsk['uid'] == uid_del:
-            print(tsk['uid'] + ' deleted succesfully')
-            tsk.clear() #this erases the dictionary element completely from the memory
-            break
-    else:
-        print('The UID does not match any in our records')
-
-
-    with open('data.json', 'w') as json_file:
-        json.dump(t_metadata, json_file,
-                  indent=4,
-                  separators=(',',': '))
 
     print(t_metadata)
 
-
-
-
     
+
+
+
 
 def view_tasks():
     with open("data.json", "r") as read_file:
