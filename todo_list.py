@@ -105,6 +105,13 @@ def delete_task(uid_del):
     delete_by_condition(t_metadata, 'uid', uid_del)
 
 
+    #dumping data to the json (tasks)
+    with open('data.json', 'w') as json_file:
+        json.dump(t_metadata, json_file, 
+                        indent=4,  
+                        separators=(',',': '))
+
+
     print(t_metadata)
 
     
