@@ -33,19 +33,25 @@ def beginner():
 
     print('Hello, welcome to the CLI todo list app \n please select an option to proceed \n 1. To add tasks \n 2. To update tasks \n 3. To view all stored tasks'
           '\n 4. Delete a task')
-    choice_selection = int(input('Enter the selection here : '))
     
-    if choice_selection == 1:
-        add_task()
-    elif choice_selection == 2:
-        unique_identifier = input('Enter the UID of the task to be edited : ')
-        update_task(unique_identifier)
-    elif choice_selection == 3:
-        print(view_tasks())
-    elif choice_selection == 4:
-        delete_task_uid = input('UID to task to be deleted : ')
+
+    #Error handling incase user inputs a string instead of int
+    try:
+        choice_selection = int(input('Enter the selection here : '))
+
+        if choice_selection == 1:
+            add_task()
+        elif choice_selection == 2:
+            unique_identifier = input('Enter the UID of the task to be edited : ')
+            update_task(unique_identifier)
+        elif choice_selection == 3:
+            print(view_tasks())
+        elif choice_selection == 4:
+            delete_task_uid = input('UID to task to be deleted : ')
         delete_task(delete_task_uid)
-        
+    except:
+        print('Your selectin does not match any of the highlighted values \nkindly rerun script again and make selection that is in range')
+           
 
 def add_task():
     task_to_be_added = input ('Enter a task you wat to add :')
@@ -101,24 +107,23 @@ def update_task(task_uid):
 
 def delete_task(uid_del):
     t_metadata = view_tasks()
-    
-    delete_by_condition(t_metadata, 'uid', uid_del)
 
+    for l in t_metadata:
+        if l['uid'] == uid_del:
+            delete_by_condition(t_metadata, 'uid', uid_del)
+            print('Task deleted succesfully !')
+            break
+    else:
+            print('The UID does not match any in our records')
 
+            
     #dumping data to the json (tasks)
     with open('data.json', 'w') as json_file:
-        json.dump(t_metadata, json_file, 
-                        indent=4,  
-                        separators=(',',': '))
-
-
-    print(t_metadata)
+        json.dump(t_metadata, json_file,
+                   indent=4,  
+                   separators=(',',': '))
 
     
-
-
-
-
 def view_tasks():
     with open("data.json", "r") as read_file:
         data = json.load(read_file)
